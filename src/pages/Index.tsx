@@ -11,7 +11,7 @@ const Index = () => {
   const { account, score, level, resetGame } = useGame();
 
   return (
-    <div className="min-h-screen flex flex-col py-8 px-4 bg-gradient-to-b from-background to-slate-50">
+    <div className="min-h-screen flex flex-col py-8 px-4 bg-gradient-to-b from-[#FDE1D3] to-[#E5DEFF]">
       <div className="container mx-auto max-w-5xl flex flex-col flex-1">
         <motion.div
           initial={{ opacity: 0 }}
@@ -19,12 +19,13 @@ const Index = () => {
           transition={{ duration: 0.7 }}
           className="absolute top-0 left-0 w-full h-96 -z-10 overflow-hidden"
         >
-          <div className="absolute top-0 right-0 bg-blue-300 opacity-10 w-96 h-96 rounded-full blur-3xl translate-x-1/4 -translate-y-1/4" />
-          <div className="absolute top-40 left-20 bg-indigo-300 opacity-10 w-96 h-96 rounded-full blur-3xl -translate-x-1/4" />
+          <div className="absolute top-0 right-0 bg-[#D946EF] opacity-20 w-96 h-96 rounded-full blur-3xl translate-x-1/4 -translate-y-1/4" />
+          <div className="absolute top-40 left-20 bg-[#F97316] opacity-10 w-96 h-96 rounded-full blur-3xl -translate-x-1/4" />
+          <div className="absolute bottom-0 left-1/2 bg-[#0EA5E9] opacity-10 w-96 h-96 rounded-full blur-3xl -translate-y-1/4" />
         </motion.div>
 
         <div className="mb-4 flex justify-end">
-          <div className="glass text-xs px-3 py-1 rounded-full">
+          <div className="glass text-xs px-3 py-1 rounded-full font-medium">
             Web3 Adventure Game
           </div>
         </div>
@@ -46,7 +47,7 @@ const Index = () => {
             <Button
               variant="outline"
               onClick={resetGame}
-              className="text-sm opacity-70 hover:opacity-100"
+              className="text-sm hover:bg-white/50 hover:text-primary transition-all duration-300"
             >
               Reset Game
             </Button>

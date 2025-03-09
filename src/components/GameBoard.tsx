@@ -156,10 +156,10 @@ const GameBoard = () => {
       transition={{ duration: 0.5, delay: 0.2 }}
     >
       <div className="flex justify-between w-full mb-4">
-        <div className="glass px-4 py-2 rounded-full">
-          <span className="font-medium">Pairs: {matchedPairs}/{totalPairs}</span>
+        <div className="glass px-4 py-2 rounded-full shadow-sm">
+          <span className="font-medium text-[#8B5CF6]">Pairs: {matchedPairs}/{totalPairs}</span>
         </div>
-        <div className={`px-4 py-2 rounded-full ${timeLeft < 10 ? 'bg-red-100 text-red-600' : 'glass'}`}>
+        <div className={`px-4 py-2 rounded-full shadow-sm ${timeLeft < 10 ? 'bg-red-100 text-red-600' : 'glass text-[#8B5CF6]'}`}>
           <span className="font-medium">Time: {timeLeft}s</span>
         </div>
       </div>
@@ -176,12 +176,12 @@ const GameBoard = () => {
         {cells.map(cell => (
           <motion.div
             key={cell.id}
-            className={`aspect-square rounded-lg ${
+            className={`aspect-square rounded-lg shadow-md ${
               cell.matched 
-                ? 'bg-green-100 border-2 border-green-300' 
+                ? 'bg-[#F2FCE2] border-2 border-[#86EFAC]' 
                 : cell.revealed 
-                  ? 'bg-blue-100 border-2 border-blue-300' 
-                  : 'bg-white border border-gray-200 hover:border-gray-300 cursor-pointer'
+                  ? 'bg-[#D3E4FD] border-2 border-[#93C5FD]' 
+                  : 'bg-white border border-gray-200 hover:border-[#8B5CF6]/30 cursor-pointer'
             } flex items-center justify-center transition-all duration-300 ease-in-out`}
             onClick={() => handleCellClick(cell.id)}
             initial={{ rotateY: 0 }}
@@ -193,7 +193,7 @@ const GameBoard = () => {
           >
             {(cell.revealed || cell.matched) && (
               <motion.span 
-                className={`text-xl font-bold ${cell.matched ? 'text-green-600' : 'text-blue-600'}`}
+                className={`text-xl font-bold ${cell.matched ? 'text-[#10B981]' : 'text-[#3B82F6]'}`}
                 initial={{ opacity: 0, rotateY: 180 }}
                 animate={{ opacity: 1, rotateY: 180 }}
                 transition={{ duration: 0.3, delay: 0.15 }}
@@ -212,12 +212,12 @@ const GameBoard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h3 className="text-xl font-bold mb-4">
-            {gameCompleted ? "Level Complete!" : "Time's Up!"}
+          <h3 className="text-xl font-bold mb-4 text-gradient">
+            {gameCompleted ? "Level Complete! 🎉" : "Time's Up! ⏱️"}
           </h3>
           <Button 
             onClick={resetCurrentLevel}
-            className="bg-primary hover:bg-primary/90 text-white rounded-full px-6"
+            className="bg-[#8B5CF6] hover:bg-[#9D71FB] text-white rounded-full px-6 shadow-lg shadow-[#8B5CF6]/20"
           >
             {gameCompleted ? "Play Next Level" : "Try Again"}
           </Button>

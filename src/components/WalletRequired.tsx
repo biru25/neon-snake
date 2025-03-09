@@ -14,14 +14,14 @@ const WalletRequired = () => {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mb-6">
+      <div className="w-20 h-20 rounded-full bg-[#FEF7CD] flex items-center justify-center mb-6 shadow-lg shadow-[#F97316]/10">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-10 h-10 text-primary"
+          className="w-10 h-10 text-[#F97316]"
         >
           <path
             strokeLinecap="round"
@@ -31,7 +31,7 @@ const WalletRequired = () => {
         </svg>
       </div>
       
-      <h2 className="text-2xl font-display font-bold mb-2">Connect Your Wallet</h2>
+      <h2 className="text-2xl font-display font-bold mb-2 text-gradient">Connect Your Wallet</h2>
       
       <p className="text-muted-foreground mb-6">
         {isMetaMaskAvailable 
@@ -43,7 +43,7 @@ const WalletRequired = () => {
         <Button
           onClick={connectToWallet}
           disabled={isLoading}
-          className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 py-6 text-lg"
+          className="bg-[#8B5CF6] hover:bg-[#9D71FB] text-white rounded-full px-8 py-6 text-lg shadow-lg shadow-[#8B5CF6]/20"
         >
           {isLoading ? "Connecting..." : "Connect Wallet"}
         </Button>
@@ -52,7 +52,7 @@ const WalletRequired = () => {
           href="https://metamask.io/download/"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 py-3 text-lg inline-block"
+          className="bg-[#8B5CF6] hover:bg-[#9D71FB] text-white rounded-full px-8 py-3 text-lg inline-block shadow-lg shadow-[#8B5CF6]/20"
         >
           Install MetaMask
         </a>
