@@ -45,6 +45,13 @@ export const connectWallet = async (): Promise<string | null> => {
   }
 };
 
+export const disconnectWallet = (): void => {
+  toast({
+    title: "Wallet disconnected",
+    description: "Your wallet has been disconnected",
+  });
+};
+
 export const getWalletBalance = async (address: string): Promise<string> => {
   try {
     const { ethereum } = window as EthereumWindow;

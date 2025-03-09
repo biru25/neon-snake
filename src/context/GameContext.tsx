@@ -1,19 +1,23 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { connectWallet, getWalletBalance, isMetaMaskInstalled, listenToAccountChanges } from "@/lib/web3";
+import { connectWallet, disconnectWallet, getWalletBalance, isMetaMaskInstalled, listenToAccountChanges } from "@/lib/web3";
 import { toast } from "@/components/ui/use-toast";
+
+type GameTab = "game" | "profile" | "leaderboard" | "referral";
 
 interface GameContextType {
   account: string | null;
   balance: string;
   score: number;
-  level: number;
+  highScore: number;
+  activeTab: GameTab;
   isLoading: boolean;
   isMetaMaskAvailable: boolean;
   connectToWallet: () => Promise<void>;
+  disconnectFromWallet: () => void;
   incrementScore: (points: number) => void;
   resetGame: () => void;
-  completeLevel: () => void;
+  setActiveTab: (tab: GameTab) => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -22,7 +26,8 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
   const [account, setAccount] = useState<string | null>(null);
   const [balance, setBalance] = useState<string>("0");
   const [score, setScore] = useState<number>(0);
-  const [level, setLevel] = useState<number>(1);
+  const [highScore, setHighScore] = useState<number>(0);
+  const [activeTab, setActiveTab] = useState<GameTab>("game");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isMetaMaskAvailable, setIsMetaMaskAvailable] = useState<boolean>(false);
 
@@ -62,6 +67,21 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [account]);
 
+  // Load high score from localStorage
+  useEffect(() => {
+    const savedHighScore = localStorage.getItem("snakeHighScore");
+    if (savedHighScore) {
+      setHighScore(parseInt(savedHighScore, 10));
+    }
+  }, []);
+
+  // Save high score to localStorage when it changes
+  useEffect(() => {
+    if (highScore > 0) {
+      localStorage.setItem("snakeHighScore", highScore.toString());
+    }
+  }, [highScore]);
+
   const updateBalance = async (address: string) => {
     const newBalance = await getWalletBalance(address);
     setBalance(newBalance);
@@ -77,21 +97,23 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const incrementScore = (points: number) => {
-    setScore(prev => prev + points);
+  const disconnectFromWallet = () => {
+    setAccount(null);
+    disconnectWallet();
   };
 
-  const completeLevel = () => {
-    setLevel(prev => prev + 1);
-    toast({
-      title: `Level ${level} completed!`,
-      description: `You've advanced to level ${level + 1}`,
+  const incrementScore = (points: number) => {
+    setScore(prev => {
+      const newScore = prev + points;
+      if (newScore > highScore) {
+        setHighScore(newScore);
+      }
+      return newScore;
     });
   };
 
   const resetGame = () => {
     setScore(0);
-    setLevel(1);
     toast({
       title: "Game reset",
       description: "Your progress has been reset",
@@ -104,13 +126,15 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
         account,
         balance,
         score,
-        level,
+        highScore,
+        activeTab,
         isLoading,
         isMetaMaskAvailable,
         connectToWallet,
+        disconnectFromWallet,
         incrementScore,
         resetGame,
-        completeLevel,
+        setActiveTab,
       }}
     >
       {children}
