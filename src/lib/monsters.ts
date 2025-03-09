@@ -10,17 +10,17 @@ export const monsters: Monster[] = [
   {
     id: 1,
     name: "Purple Blob",
-    image: "https://images.unsplash.com/photo-1487252665478-49b61b47f302"
+    image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cellipse cx='50' cy='50' rx='40' ry='30' fill='%23A78BFA'/%3E%3Ccircle cx='40' cy='40' r='5' fill='white'/%3E%3Ccircle cx='60' cy='40' r='5' fill='white'/%3E%3Ccircle cx='40' cy='40' r='2' fill='black'/%3E%3Ccircle cx='60' cy='40' r='2' fill='black'/%3E%3Cpath d='M40 60 Q50 70 60 60' stroke='white' stroke-width='2' fill='none'/%3E%3C/svg%3E"
   },
   {
     id: 2,
     name: "Robo Friend",
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e"
+    image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect x='25' y='20' width='50' height='60' rx='5' fill='%23C4B5FD'/%3E%3Crect x='35' y='10' width='30' height='10' rx='3' fill='%23A78BFA'/%3E%3Ccircle cx='40' cy='40' r='8' fill='white'/%3E%3Ccircle cx='60' cy='40' r='8' fill='white'/%3E%3Ccircle cx='40' cy='40' r='3' fill='black'/%3E%3Ccircle cx='60' cy='40' r='3' fill='black'/%3E%3Crect x='40' y='60' width='20' height='5' rx='2' fill='%23475569'/%3E%3Crect x='15' y='40' width='10' height='20' rx='3' fill='%23A78BFA'/%3E%3Crect x='75' y='40' width='10' height='20' rx='3' fill='%23A78BFA'/%3E%3C/svg%3E"
   },
   {
     id: 3,
     name: "Mountain Ox",
-    image: "https://images.unsplash.com/photo-1493962853295-0fd70327578a"
+    image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cellipse cx='50' cy='50' rx='40' ry='30' fill='%23A16207'/%3E%3Cpath d='M20 30 L35 15 L35 30' fill='%23854D0E'/%3E%3Cpath d='M80 30 L65 15 L65 30' fill='%23854D0E'/%3E%3Ccircle cx='35' cy='40' r='5' fill='white'/%3E%3Ccircle cx='65' cy='40' r='5' fill='white'/%3E%3Ccircle cx='35' cy='40' r='2' fill='black'/%3E%3Ccircle cx='65' cy='40' r='2' fill='black'/%3E%3Cpath d='M40 60 Q50 65 60 60' stroke='white' stroke-width='2' fill='none'/%3E%3C/svg%3E"
   },
   {
     id: 4,
