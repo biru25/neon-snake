@@ -4,10 +4,12 @@ import { useGame } from "@/context/GameContext";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { toast } from "@/components/ui/use-toast";
+import { Monster, getMonstersByLevel } from "@/lib/monsters";
 
 type Cell = {
   id: number;
-  value: number;
+  monsterId: number;
+  monster: Monster;
   revealed: boolean;
   matched: boolean;
 };
@@ -55,29 +57,40 @@ const GameBoard = () => {
   }, [gameCompleted, timeLeft]);
   
   const initializeGame = useCallback(() => {
-    // Create pairs of values
-    const values: number[] = [];
-    for (let i = 1; i <= totalPairs; i++) {
-      values.push(i, i);
-    }
+    // Get monsters for this level
+    const levelMonsters = getMonstersByLevel(level);
     
-    // Shuffle the values
-    for (let i = values.length - 1; i > 0; i--) {
+    // Create pairs of monsters
+    const monsterPairs: Monster[] = [];
+    
+    // Select random monsters from our level-appropriate set
+    // We need totalPairs number of unique monsters
+    const shuffledMonsters = [...levelMonsters].sort(() => Math.random() - 0.5);
+    const selectedMonsters = shuffledMonsters.slice(0, totalPairs);
+    
+    // Create pairs of monsters
+    selectedMonsters.forEach(monster => {
+      monsterPairs.push(monster, monster);
+    });
+    
+    // Shuffle the monster pairs
+    for (let i = monsterPairs.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [values[i], values[j]] = [values[j], values[i]];
+      [monsterPairs[i], monsterPairs[j]] = [monsterPairs[j], monsterPairs[i]];
     }
     
-    // Create cells with the shuffled values
-    const newCells = values.map((value, index) => ({
+    // Create cells with the shuffled monster pairs
+    const newCells = monsterPairs.map((monster, index) => ({
       id: index,
-      value,
+      monsterId: monster.id,
+      monster: monster,
       revealed: false,
       matched: false,
     }));
     
     setCells(newCells);
     setSelectedCells([]);
-  }, [totalPairs]);
+  }, [totalPairs, level]);
   
   const handleCellClick = (id: number) => {
     if (isChecking || gameCompleted || timeLeft <= 0) return;
@@ -105,7 +118,7 @@ const GameBoard = () => {
         const firstCell = cells.find(c => c.id === selectedCells[0]);
         const secondCell = cells.find(c => c.id === id);
         
-        if (firstCell && secondCell && firstCell.value === secondCell.value) {
+        if (firstCell && secondCell && firstCell.monsterId === secondCell.monsterId) {
           // It's a match!
           setCells(prev => 
             prev.map(c => 
@@ -182,7 +195,7 @@ const GameBoard = () => {
                 : cell.revealed 
                   ? 'bg-[#D3E4FD] border-2 border-[#93C5FD]' 
                   : 'bg-white border border-gray-200 hover:border-[#8B5CF6]/30 cursor-pointer'
-            } flex items-center justify-center transition-all duration-300 ease-in-out`}
+            } flex items-center justify-center transition-all duration-300 ease-in-out overflow-hidden`}
             onClick={() => handleCellClick(cell.id)}
             initial={{ rotateY: 0 }}
             animate={{ 
@@ -192,14 +205,22 @@ const GameBoard = () => {
             transition={{ duration: 0.3 }}
           >
             {(cell.revealed || cell.matched) && (
-              <motion.span 
-                className={`text-xl font-bold ${cell.matched ? 'text-[#10B981]' : 'text-[#3B82F6]'}`}
+              <motion.div
+                className="w-full h-full flex items-center justify-center"
                 initial={{ opacity: 0, rotateY: 180 }}
                 animate={{ opacity: 1, rotateY: 180 }}
                 transition={{ duration: 0.3, delay: 0.15 }}
               >
-                {cell.value}
-              </motion.span>
+                <img 
+                  src={cell.monster.image} 
+                  alt={cell.monster.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback if image fails to load
+                    e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23FFD166'/%3E%3Ccircle cx='50' cy='40' r='20' fill='white'/%3E%3Ccircle cx='42' cy='35' r='5' fill='black'/%3E%3Ccircle cx='58' cy='35' r='5' fill='black'/%3E%3Cpath d='M35 60 Q50 70 65 60' stroke='black' stroke-width='3' fill='none'/%3E%3C/svg%3E";
+                  }}
+                />
+              </motion.div>
             )}
           </motion.div>
         ))}
